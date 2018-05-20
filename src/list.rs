@@ -35,6 +35,14 @@ impl List {
             }
         }
     }
+
+    pub fn new_subs(id: &str, form: &str, subs: Vec<Box<Chunk>>) -> Box<List> {
+        let mut lst = Self::new(id, form);
+        for cnk in subs{
+            lst.data.push(cnk);
+        }
+        lst
+    }
 }
 
 impl Chunk for List {
