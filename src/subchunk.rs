@@ -1,5 +1,6 @@
 use chunk::Chunk;
 use chunk::ChunkType;
+use little_endian as le;
 use util::*;
 
 #[derive(Clone)]
@@ -14,6 +15,32 @@ impl SubChunk {
             id: encode_str(id),
             data: vec![],
         })
+    }
+
+    pub fn new_str(id: &str, data: &str) -> Box<SubChunk>{
+        let mut cnk = Self::new(id);
+        cnk.fill_string(data);
+        cnk
+    }
+
+    pub fn new_data(id: &str, data: Vec<u8>) -> Box<SubChunk> {
+        let mut cnk = Self::new(id);
+        cnk.data = data;
+        cnk
+    }
+
+    pub fn new_u8(id: &str, data: u8) -> Box<SubChunk>{
+        Self::new_data(id, vec![data])
+    }
+
+    pub fn new_u16(id: &str, data: u16) -> Box<SubChunk>{
+        let mut buf = [0;2];
+        le::write(&mut buf, data);
+        Self::new_data(id, vec![buf[0], buf[1]])
+    }
+
+    pub fn new_u32(id: &str, data: u32) -> Box<SubChunk>{
+        Self::new_data(id, encode_u32(data))
     }
 }
 
