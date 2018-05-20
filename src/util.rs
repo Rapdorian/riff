@@ -9,7 +9,7 @@ pub fn encode_u32(x: u32) -> Vec<u8> {
 
 pub fn parse_id(x: u32) -> String {
     let buf = encode_u32(x);
-    format!("{}{}{}{}", buf[0], buf[1], buf[2], buf[3])
+    format!("{}{}{}{}", buf[0] as char, buf[1] as char, buf[2] as char, buf[3] as char)
 }
 
 pub fn encode_str(s: &str) -> u32 {

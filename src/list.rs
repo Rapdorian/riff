@@ -1,4 +1,4 @@
-use chunk::Chunk;
+use chunk::*;
 use subchunk::SubChunk;
 use util::*;
 
@@ -16,9 +16,33 @@ impl List {
             data: vec![],
         })
     }
+    
+    pub fn set_type(&mut self, form: &str) {
+        self.form = encode_str(form);
+    }
+
+    pub fn form(&self) -> String {
+        parse_id(self.form)
+    }
+
+    pub fn get_chunks(&self, id: &str){
+        for chunk in &self.data{
+            if chunk.id() == id{
+                // add chunks
+            }
+            if chunk.id() == "LIST"{
+                
+            }
+        }
+    }
 }
 
 impl Chunk for List {
+
+    fn internal(&self) -> ChunkType{
+        ChunkType::List(self)
+    }
+
     fn set_data(&mut self, data: Vec<u8>) {
         // check if we already have a 'DATA' tag
         for chunk in &mut self.data {
@@ -51,9 +75,7 @@ impl Chunk for List {
         self.id = encode_str(id);
     }
 
-    fn change_type(&mut self, form: &str) {
-        self.form = encode_str(form);
-    }
+    
 
     fn size(&self) -> u32 {
         let mut sum = 4;

@@ -36,7 +36,7 @@ fn parse_chunk<F: Read>(file: &mut F) -> Box<Chunk> {
             data: vec![],
         };
 
-        while list.size() + (list.data.len() as u32 * 8)  < size{
+        while list.total_size() < size{
             list.data.push(parse_chunk(file));
         }
         return Box::new(list); 
@@ -44,9 +44,16 @@ fn parse_chunk<F: Read>(file: &mut F) -> Box<Chunk> {
     } else {
         let mut data = vec![]; 
         data.reserve_exact(size as usize);
-        for _ in 0..size{
+
+        for i in 0..size{
             data.push(read_byte(file));
         }
+        
+        // toss a byte if not word aligned
+        if size % 2 != 0{
+            read_byte(file);
+        }
+
         let chunk = SubChunk{
             id: id,
             data: data,

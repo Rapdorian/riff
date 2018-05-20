@@ -5,3 +5,6 @@ authors = ["Rapdorian <jamescpruitt@gmail.com>"]
 
 [dependencies]
 little-endian = "1.0.0"
+
+[dev-dependencies]
+structopt = "0.2.8"

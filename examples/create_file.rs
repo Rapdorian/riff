@@ -11,7 +11,7 @@ fn main(){
     let mut b = riff::SubChunk::new("BLVL");
 
     a.fill_string("Hello World!");
-    b.fill_string("This is a test");
+    b.set_data(vec![34, 23, 65, 43, 67]);
 
     let mut riff = riff::List::new("RIFF", "TEST");
     riff.data.push(a);
@@ -20,7 +20,7 @@ fn main(){
     riff.fill_string("THIS WAS ADDED DIRECTLY TO RIFF_LIST");
 
     // open file
-    let mut f = File::create("out.riff").unwrap();
+    let mut f = File::create("test.riff").unwrap();
 
     // riff::write::<File, riff::List>(riff.borrow(), &mut f);
     riff::write(riff.borrow(), &mut f);
