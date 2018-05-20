@@ -1,0 +1,7 @@
+[package]
+name = "riff"
+version = "0.1.0"
+authors = ["Rapdorian <jamescpruitt@gmail.com>"]
+
+[dependencies]
+little-endian = "1.0.0"
