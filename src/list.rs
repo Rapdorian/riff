@@ -37,8 +37,14 @@ impl List {
         let mut chunks = vec![];
 
         for chunk in &self.data {
-            if chunk.id() == id {
+            if chunk.id() == id { 
                 chunks.push(chunk);
+            }
+            // check form if this is a list
+            if let Some(ref list) = chunk.as_list(){
+                if list.form() == id{
+                    chunks.push(chunk);
+                }
             }
         }
         chunks

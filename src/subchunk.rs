@@ -53,11 +53,11 @@ impl SubChunk {
     }
 
     pub fn as_u16(&self) -> u16 {
-        le::read(&self.data[0..1])
+        le::read(&self.data[0..2])
     }
 
     pub fn as_u32(&self) -> u32 {
-        le::read(&self.data[0..3])
+        le::read(&self.data[0..4])
     }
 }
 
