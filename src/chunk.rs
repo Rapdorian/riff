@@ -1,6 +1,6 @@
 use list::List;
-use subchunk::SubChunk;
 use std::string::FromUtf8Error;
+use subchunk::SubChunk;
 
 pub enum ChunkType<'a> {
     SubChunk(&'a SubChunk),
@@ -28,6 +28,13 @@ impl<'a> ChunkType<'a> {
 }
 
 pub trait Chunk {
+    fn as_subchunk(&self) -> Option<&SubChunk> {
+        None
+    }
+    fn as_list(&self) -> Option<&List> {
+        None
+    }
+
     fn size(&self) -> u32;
     fn total_size(&self) -> u32 {
         self.size() + 8

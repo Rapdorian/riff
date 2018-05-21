@@ -18,7 +18,7 @@ impl SubChunk {
         })
     }
 
-    pub fn new_str(id: &str, data: &str) -> Box<SubChunk>{
+    pub fn new_str(id: &str, data: &str) -> Box<SubChunk> {
         let mut cnk = Self::new(id);
         cnk.fill_string(data);
         cnk
@@ -30,44 +30,47 @@ impl SubChunk {
         cnk
     }
 
-    pub fn new_u8(id: &str, data: u8) -> Box<SubChunk>{
+    pub fn new_u8(id: &str, data: u8) -> Box<SubChunk> {
         Self::new_data(id, vec![data])
     }
 
-    pub fn new_u16(id: &str, data: u16) -> Box<SubChunk>{
-        let mut buf = [0;2];
+    pub fn new_u16(id: &str, data: u16) -> Box<SubChunk> {
+        let mut buf = [0; 2];
         le::write(&mut buf, data);
         Self::new_data(id, vec![buf[0], buf[1]])
     }
 
-    pub fn new_u32(id: &str, data: u32) -> Box<SubChunk>{
+    pub fn new_u32(id: &str, data: u32) -> Box<SubChunk> {
         Self::new_data(id, encode_u32(data))
     }
 
-    pub fn as_str(&self) -> Result<String, FromUtf8Error>{
+    pub fn as_str(&self) -> Result<String, FromUtf8Error> {
         self.data_string()
     }
 
-    pub fn as_u8(&self) -> u8{
+    pub fn as_u8(&self) -> u8 {
         self.data[0]
     }
 
-    pub fn as_u16(&self) -> u16{
+    pub fn as_u16(&self) -> u16 {
         le::read(&self.data[0..1])
     }
 
-    pub fn as_u32(&self) -> u32{
+    pub fn as_u32(&self) -> u32 {
         le::read(&self.data[0..3])
     }
 }
 
 impl Chunk for SubChunk {
+    fn as_subchunk(&self) -> Option<&SubChunk> {
+        Some(self)
+    }
 
-    fn internal(&self) -> ChunkType{
+    fn internal(&self) -> ChunkType {
         ChunkType::SubChunk(self)
     }
 
-    fn data(&self) -> Vec<u8>{
+    fn data(&self) -> Vec<u8> {
         self.data.clone()
     }
     fn set_data(&mut self, data: Vec<u8>) {
@@ -81,9 +84,9 @@ impl Chunk for SubChunk {
     fn total_size(&self) -> u32 {
         // we need to add an extra byte if the chunk isn't word aligned
         if self.size() % 2 == 0 {
-            return self.size() + 8
-        }else{
-            return self.size() + 9
+            return self.size() + 8;
+        } else {
+            return self.size() + 9;
         }
     }
 
@@ -103,9 +106,9 @@ impl Chunk for SubChunk {
         for byte in &self.data {
             data.push(*byte);
         }
-        
+
         // add phantom byte if not word aligned
-        if self.size() % 2 != 0{
+        if self.size() % 2 != 0 {
             data.push(0);
         }
 

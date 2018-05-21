@@ -22,7 +22,7 @@ pub fn read<F: Read>(file: &mut F) -> Box<Chunk>{
 
 pub fn write<F: Write>(chunk: Box<Chunk>, file: &mut F){
     let bytes = chunk.compile();
-    file.write(bytes.as_slice());
+    file.write(bytes.as_slice()).unwrap();
 }
 
 fn parse_chunk<F: Read>(file: &mut F) -> Box<Chunk> {
@@ -45,7 +45,7 @@ fn parse_chunk<F: Read>(file: &mut F) -> Box<Chunk> {
         let mut data = vec![]; 
         data.reserve_exact(size as usize);
 
-        for i in 0..size{
+        for _ in 0..size{
             data.push(read_byte(file));
         }
         

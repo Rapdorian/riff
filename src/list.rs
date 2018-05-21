@@ -16,7 +16,7 @@ impl List {
             data: vec![],
         })
     }
-    
+
     pub fn set_type(&mut self, form: &str) {
         self.form = encode_str(form);
     }
@@ -27,17 +27,17 @@ impl List {
 
     pub fn new_subs(id: &str, form: &str, subs: Vec<Box<Chunk>>) -> Box<List> {
         let mut lst = Self::new(id, form);
-        for cnk in subs{
+        for cnk in subs {
             lst.data.push(cnk);
         }
         lst
     }
 
-    pub fn get_subs(&self, id: &str) -> Vec<&Box<Chunk>>{
+    pub fn get_subs(&self, id: &str) -> Vec<&Box<Chunk>> {
         let mut chunks = vec![];
 
-        for chunk in &self.data{
-            if chunk.id() == id{
+        for chunk in &self.data {
+            if chunk.id() == id {
                 chunks.push(chunk);
             }
         }
@@ -46,8 +46,11 @@ impl List {
 }
 
 impl Chunk for List {
+    fn as_list(&self) -> Option<&List> {
+        Some(self)
+    }
 
-    fn internal(&self) -> ChunkType{
+    fn internal(&self) -> ChunkType {
         ChunkType::List(self)
     }
 
@@ -65,7 +68,7 @@ impl Chunk for List {
         }));
     }
 
-    fn data(&self) -> Vec<u8>{
+    fn data(&self) -> Vec<u8> {
         // check if we already have a 'DATA' tag
         for chunk in &self.data {
             if chunk.id() == "DATA" {
@@ -82,8 +85,6 @@ impl Chunk for List {
     fn set_id(&mut self, id: &str) {
         self.id = encode_str(id);
     }
-
-    
 
     fn size(&self) -> u32 {
         let mut sum = 4;
