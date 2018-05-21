@@ -20,7 +20,7 @@ pub fn read<F: Read>(file: &mut F) -> Box<Chunk>{
     parse_chunk(file)
 }
 
-pub fn write<F: Write>(chunk: &List, file: &mut F){
+pub fn write<F: Write>(chunk: Box<Chunk>, file: &mut F){
     let bytes = chunk.compile();
     file.write(bytes.as_slice());
 }

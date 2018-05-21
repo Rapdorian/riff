@@ -23,5 +23,5 @@ fn main(){
     let mut f = File::create("test.riff").unwrap();
 
     // riff::write::<File, riff::List>(riff.borrow(), &mut f);
-    riff::write(riff.borrow(), &mut f);
+    riff::write(riff, &mut f);
 }
