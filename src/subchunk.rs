@@ -1,6 +1,7 @@
 use chunk::Chunk;
 use chunk::ChunkType;
 use little_endian as le;
+use std::string::FromUtf8Error;
 use util::*;
 
 #[derive(Clone)]
@@ -41,6 +42,22 @@ impl SubChunk {
 
     pub fn new_u32(id: &str, data: u32) -> Box<SubChunk>{
         Self::new_data(id, encode_u32(data))
+    }
+
+    pub fn as_str(&self) -> Result<String, FromUtf8Error>{
+        self.data_string()
+    }
+
+    pub fn as_u8(&self) -> u8{
+        self.data[0]
+    }
+
+    pub fn as_u16(&self) -> u16{
+        le::read(&self.data[0..1])
+    }
+
+    pub fn as_u32(&self) -> u32{
+        le::read(&self.data[0..3])
     }
 }
 
