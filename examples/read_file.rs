@@ -40,7 +40,11 @@ fn print_chunk(cnk: &Box<riff::Chunk>) {
 
         if s.is_ok() {
             let s = s.unwrap();
-            println!("{}: {}", cnk.id(), s);
+            if s.is_ascii(){
+                println!("{}: {}", cnk.id(), s);
+            }else{
+                println!("{}: [utf8]", cnk.id());
+            }
         } else {
             println!("{}: [bin]", cnk.id());
             // println!("{}: {:X?}", cnk.id(), cnk.data);

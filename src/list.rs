@@ -25,23 +25,23 @@ impl List {
         parse_id(self.form)
     }
 
-    pub fn get_chunks(&self, id: &str){
-        for chunk in &self.data{
-            if chunk.id() == id{
-                // add chunks
-            }
-            if chunk.id() == "LIST"{
-                
-            }
-        }
-    }
-
     pub fn new_subs(id: &str, form: &str, subs: Vec<Box<Chunk>>) -> Box<List> {
         let mut lst = Self::new(id, form);
         for cnk in subs{
             lst.data.push(cnk);
         }
         lst
+    }
+
+    pub fn get_subs(&self, id: &str) -> Vec<&Box<Chunk>>{
+        let mut chunks = vec![];
+
+        for chunk in &self.data{
+            if chunk.id() == id{
+                chunks.push(chunk);
+            }
+        }
+        chunks
     }
 }
 
